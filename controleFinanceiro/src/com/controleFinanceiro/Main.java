@@ -12,8 +12,15 @@ public class Main {
         System.out.println(c1.getSaldo());
 
         Transacao t1 = new Transacao(BigDecimal.valueOf(1000), "Lazer", c1);
+        Transacao t2 = new Transacao(BigDecimal.valueOf(300), "Energia", c1);
 
         System.out.println(c1.getSaldo());
+
+        List<Transacao> l = c1.getTransacoes();
+
+        for (Transacao t : l) {
+            System.out.println(t.getValor() + " ; " + t.getData() + " ; " + t.getCategoria());
+        }
 
 //        while (x!=0) {
 //            System.out.println("1- Registrar gasto" +

@@ -1,12 +1,14 @@
 package com.controleFinanceiro.model;
 
 import java.math.BigDecimal;
+import java.util.*;
 
 public class Conta {
     private static int contador = 0;
     private int id;
     private String nome;
     private BigDecimal saldo = new BigDecimal(0);
+    private List<Transacao> transacoes = new ArrayList<>();
 
     public Conta(String nome) {
         this.id = ++contador;
@@ -27,6 +29,10 @@ public class Conta {
         return true;
     }
 
+    public void adicionarNaLista (Transacao t) {
+        this.transacoes.add(t);
+    }
+
     //setters
     public void setId(int id) {
         this.id = id;
@@ -43,6 +49,10 @@ public class Conta {
     //getters
     public int getId() {
         return id;
+    }
+
+    public List<Transacao> getTransacoes() {
+        return transacoes;
     }
 
     public String getNome() {

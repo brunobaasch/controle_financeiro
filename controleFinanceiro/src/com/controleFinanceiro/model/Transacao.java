@@ -8,9 +8,7 @@ public class Transacao {
     private int id = 0;
     private String categoria;
     private BigDecimal valor;
-//  private TipoTransacao tipo;
     private LocalDate data;
-    private String descricao;
 
     public Transacao(BigDecimal valor, String categoria, Conta c) {
         this.valor = valor;
@@ -18,11 +16,16 @@ public class Transacao {
         this.id = ++contador;
         this.data = LocalDate.now();
         debitarValor(c);
+        c.adicionarNaLista(this);
     }
 
     //metodos
     public void debitarValor(Conta c) {
         c.debitar(this.valor);
+    }
+
+    public void adicionarTransacaoLista (Conta c, Transacao t) {
+
     }
 
     //setters
@@ -34,5 +37,9 @@ public class Transacao {
 
     public BigDecimal getValor() {
         return valor;
+    }
+
+    public String getCategoria() {
+        return categoria;
     }
 }
