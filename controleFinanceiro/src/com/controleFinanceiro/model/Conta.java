@@ -14,8 +14,17 @@ public class Conta {
     }
 
     //metodos
-    public boolean debitar(String valor) {
-        if (valor.)
+    public boolean debitar(BigDecimal valorGasto) {
+        if (valorGasto.compareTo(saldo) > 0) {
+            return false;
+        }
+        this.saldo = this.saldo.subtract(valorGasto);
+        return true;
+    }
+
+    public boolean creditar(BigDecimal valorGasto) {
+        this.saldo = this.saldo.add(valorGasto);
+        return true;
     }
 
     //setters
@@ -30,6 +39,7 @@ public class Conta {
     public void setSaldo(BigDecimal saldo) {
         this.saldo = saldo;
     }
+
     //getters
     public int getId() {
         return id;
