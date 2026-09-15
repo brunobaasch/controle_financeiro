@@ -43,11 +43,6 @@ public class Conta {
         return false;
     }
 
-    public void verTransacoes(List<Transacao> l) {
-        for (Transacao t : l) {
-            System.out.println(t.getValor() + " ; " + t.getData() + " ; " + t.getCategoria());
-        }
-    }
     //setters
 
     public void setNome(String nome) {

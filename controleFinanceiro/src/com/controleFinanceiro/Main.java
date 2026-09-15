@@ -15,7 +15,7 @@ public class Main {
         c1.registrarTransacao(BigDecimal.valueOf(10), "Lazer");
 
         List<Transacao> l = c1.getTransacoes();
-        c1.verTransacoes(l);
+        verTransacoes(l);
         System.out.println(c1.getSaldo());
 
 //        while (x!=0) {
@@ -29,5 +29,12 @@ public class Main {
 //                case 2 -> ;
 //            }
 //        }
+    }
+
+    public static void verTransacoes(List<Transacao> l) {
+        List<Transacao> l1 = new ArrayList<>(l);
+        for (Transacao t : l1) {
+            System.out.println(t.getValor() + " ; " + t.getData() + " ; " + t.getCategoria());
+        }
     }
 }
