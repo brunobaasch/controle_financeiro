@@ -19,31 +19,39 @@ public class Conta {
     public boolean debitar(BigDecimal valorGasto) {
         if (valorGasto.compareTo(saldo) > 0) {
             return false;
+        }else if(valorGasto.compareTo(BigDecimal.ZERO) < 0){
+            return false;
         }
         this.saldo = this.saldo.subtract(valorGasto);
         return true;
     }
 
-    public boolean creditar(BigDecimal valorGasto) {
+    public void creditar(BigDecimal valorGasto) {
         this.saldo = this.saldo.add(valorGasto);
-        return true;
     }
 
-    public void adicionarNaLista (Transacao t) {
+    protected void adicionarNaLista (Transacao t) {
         this.transacoes.add(t);
     }
 
-    //setters
-    public void setId(int id) {
-        this.id = id;
+    public boolean registrarTransacao (BigDecimal valor, String categoria) {
+        if (debitar(valor)) {
+            Transacao t = new Transacao(valor, categoria);
+            adicionarNaLista(t);
+            return true;
+        }
+        return false;
     }
+
+    public void verTransacoes(List<Transacao> l) {
+        for (Transacao t : l) {
+            System.out.println(t.getValor() + " ; " + t.getData() + " ; " + t.getCategoria());
+        }
+    }
+    //setters
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public void setSaldo(BigDecimal saldo) {
-        this.saldo = saldo;
     }
 
     //getters
@@ -52,7 +60,7 @@ public class Conta {
     }
 
     public List<Transacao> getTransacoes() {
-        return transacoes;
+        return new ArrayList<>(transacoes);
     }
 
     public String getNome() {

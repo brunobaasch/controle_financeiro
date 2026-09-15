@@ -10,23 +10,14 @@ public class Transacao {
     private BigDecimal valor;
     private LocalDate data;
 
-    public Transacao(BigDecimal valor, String categoria, Conta c) {
+    public Transacao(BigDecimal valor, String categoria) {
         this.valor = valor;
         this.categoria = categoria;
-        this.id = ++contador;
         this.data = LocalDate.now();
-        debitarValor(c);
-        c.adicionarNaLista(this);
+        this.id = ++contador;
     }
 
     //metodos
-    public void debitarValor(Conta c) {
-        c.debitar(this.valor);
-    }
-
-    public void adicionarTransacaoLista (Conta c, Transacao t) {
-
-    }
 
     //setters
 

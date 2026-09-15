@@ -8,19 +8,15 @@ public class Main {
         int x = 0;
         Scanner scanner = new Scanner(System.in);
         Conta c1 = new Conta("Bruno");
-        c1.setSaldo(BigDecimal.valueOf(1620));
+        c1.creditar(BigDecimal.valueOf(1620));
         System.out.println(c1.getSaldo());
+        c1.debitar(new BigDecimal(-50));
 
-        Transacao t1 = new Transacao(BigDecimal.valueOf(1000), "Lazer", c1);
-        Transacao t2 = new Transacao(BigDecimal.valueOf(300), "Energia", c1);
-
-        System.out.println(c1.getSaldo());
+        c1.registrarTransacao(BigDecimal.valueOf(10), "Lazer");
 
         List<Transacao> l = c1.getTransacoes();
-
-        for (Transacao t : l) {
-            System.out.println(t.getValor() + " ; " + t.getData() + " ; " + t.getCategoria());
-        }
+        c1.verTransacoes(l);
+        System.out.println(c1.getSaldo());
 
 //        while (x!=0) {
 //            System.out.println("1- Registrar gasto" +
