@@ -14,7 +14,7 @@ public class Main {
         while (x!=0) {
             System.out.println("1- Registrar saída" +
                     "\n2- Registrar entrada" +
-                    "\n3- Ver gastos" +
+                    "\n3- Ver transacoes" +
                     "\n4- Ver saldo" +
                     "\n0- Sair");
 //            while (true) {
@@ -62,7 +62,7 @@ public class Main {
 
     public static void verTransacoes(List<Transacao> l) {
         for (Transacao t : l) {
-            System.out.println(t.getValor() + " ; " + t.getData() + " ; " + t.getCategoria());
+            System.out.println(t.getValor() + " ; " + t.getData() + " ; " + t.getCategoria() + " ; " + t.getTipoTransacao());
         }
     }
 }

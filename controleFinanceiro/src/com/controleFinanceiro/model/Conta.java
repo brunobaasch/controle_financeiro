@@ -37,12 +37,14 @@ public class Conta {
     public boolean registrarTransacao (BigDecimal valor, String categoria, TipoTransacao tipo) {
         if (tipo == TipoTransacao.DESPESA) {
             if (debitar(valor)) {
-                Transacao t = new Transacao(valor, categoria);
+                Transacao t = new Transacao(valor, categoria, tipo);
                 adicionarNaLista(t);
                 return true;
             }
         }else if (tipo == TipoTransacao.RECEITA) {
-            this.saldo = this.saldo.add(valor);
+            Transacao t = new Transacao(valor, categoria, tipo);
+            creditar(valor);
+            adicionarNaLista(t);
             return true;
         }
         return false;

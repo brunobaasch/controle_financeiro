@@ -11,7 +11,7 @@ public class Transacao {
     private TipoTransacao tipoTransacao;
     private LocalDate data;
 
-    public Transacao(BigDecimal valor, String categoria) {
+    public Transacao(BigDecimal valor, String categoria, TipoTransacao tipoTransacao) {
         this.valor = valor;
         this.categoria = categoria;
         this.data = LocalDate.now();
@@ -24,6 +24,10 @@ public class Transacao {
     //setters
 
     //getters
+
+
+    public TipoTransacao getTipoTransacao() { return tipoTransacao; }
+
     public LocalDate getData() {
         return data;
     }
