@@ -16,7 +16,7 @@ public class Transacao {
         this.categoria = categoria;
         this.data = LocalDate.now();
         this.id = ++contador;
-//      this.tipoTransacao = tipoTransacao;
+        this.tipoTransacao = tipoTransacao;
     }
 
     //metodos

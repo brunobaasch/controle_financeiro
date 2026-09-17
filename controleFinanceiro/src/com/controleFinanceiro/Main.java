@@ -12,8 +12,10 @@ public class Main {
         c1.creditar(BigDecimal.valueOf(2000));
 
         while (x!=0) {
-            System.out.println("1- Registrar gasto" +
-                    "\n2- Ver gastos" +
+            System.out.println("1- Registrar saída" +
+                    "\n2- Registrar entrada" +
+                    "\n3- Ver gastos" +
+                    "\n4- Ver saldo" +
                     "\n0- Sair");
 //            while (true) {
                 try {
@@ -32,16 +34,28 @@ public class Main {
                         BigDecimal val = new BigDecimal(valor);
                         System.out.println("Digite a categoria: ");
                         String cat = scanner.nextLine();
-                        boolean teste = c1.registrarTransacao(val, cat);
+                        boolean teste = c1.registrarTransacao(val, cat, TipoTransacao.DESPESA);
                         System.out.println(teste);
                     } catch (NumberFormatException e) {
                         System.out.println("Digite um valor númerico!");
                     }
                 }
                 case 2 -> {
+                    scanner.nextLine();
+                    System.out.println("Digite o valor da entrada: ");
+                    String valor = scanner.nextLine();
+                    BigDecimal val = new BigDecimal(valor);
+                    System.out.println("Digite a categoria: ");
+                    String cat = scanner.nextLine();
+                    boolean teste = c1.registrarTransacao(val, cat, TipoTransacao.RECEITA);
+                    System.out.println(teste);
+                }
+                case 3 -> {
                     List<Transacao> l = new ArrayList<>(c1.getTransacoes());
                     verTransacoes(l);
                 }
+
+                case 4 -> System.out.println(c1.getSaldo());
             }
         }
     }

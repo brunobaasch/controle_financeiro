@@ -34,10 +34,15 @@ public class Conta {
         this.transacoes.add(t);
     }
 
-    public boolean registrarTransacao (BigDecimal valor, String categoria) {
-        if (debitar(valor)) {
-            Transacao t = new Transacao(valor, categoria);
-            adicionarNaLista(t);
+    public boolean registrarTransacao (BigDecimal valor, String categoria, TipoTransacao tipo) {
+        if (tipo == TipoTransacao.DESPESA) {
+            if (debitar(valor)) {
+                Transacao t = new Transacao(valor, categoria);
+                adicionarNaLista(t);
+                return true;
+            }
+        }else if (tipo == TipoTransacao.RECEITA) {
+            this.saldo = this.saldo.add(valor);
             return true;
         }
         return false;
