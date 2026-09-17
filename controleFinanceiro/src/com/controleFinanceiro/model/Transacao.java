@@ -8,6 +8,7 @@ public class Transacao {
     private int id = 0;
     private String categoria;
     private BigDecimal valor;
+    private TipoTransacao tipoTransacao;
     private LocalDate data;
 
     public Transacao(BigDecimal valor, String categoria) {
@@ -15,6 +16,7 @@ public class Transacao {
         this.categoria = categoria;
         this.data = LocalDate.now();
         this.id = ++contador;
+//      this.tipoTransacao = tipoTransacao;
     }
 
     //metodos
