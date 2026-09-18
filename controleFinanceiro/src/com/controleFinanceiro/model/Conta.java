@@ -17,17 +17,21 @@ public class Conta {
 
     //metodos
     public boolean debitar(BigDecimal valorGasto) {
-        if (valorGasto.compareTo(saldo) > 0) {
+        if (!valorDisponivel(valorGasto)) {
             return false;
-        }else if(valorGasto.compareTo(BigDecimal.ZERO) < 0){
+        }else if(!valorMajorQueZero(valorGasto)){
             return false;
         }
         this.saldo = this.saldo.subtract(valorGasto);
         return true;
     }
 
-    public void creditar(BigDecimal valorGasto) {
+    public boolean creditar(BigDecimal valorGasto) {
+        if (!valorMajorQueZero(valorGasto)) {
+            return false;
+        }
         this.saldo = this.saldo.add(valorGasto);
+        return true;
     }
 
     protected void adicionarNaLista (Transacao t) {
@@ -35,20 +39,44 @@ public class Conta {
     }
 
     public boolean registrarTransacao (BigDecimal valor, String categoria, TipoTransacao tipo) {
-        if (tipo == TipoTransacao.DESPESA) {
-            if (debitar(valor)) {
-                Transacao t = new Transacao(valor, categoria, tipo);
-                adicionarNaLista(t);
-                return true;
-            }
-        }else if (tipo == TipoTransacao.RECEITA) {
+        if (valorMajorQueZero(valor) && valorDisponivel(valor)) {
             Transacao t = new Transacao(valor, categoria, tipo);
-            creditar(valor);
             adicionarNaLista(t);
+            if (tipo == TipoTransacao.DESPESA) {
+                debitar(valor);
+            }else if(tipo == TipoTransacao.RECEITA) {
+                creditar(valor);
+            }
             return true;
         }
+//        if (tipo == TipoTransacao.DESPESA) {
+//            if (debitar(valor)) {
+//                adicionarNaLista(t);
+//                return true;
+//            }
+//        }else if (tipo == TipoTransacao.RECEITA) {
+//            if (creditar(valor)) {
+//                adicionarNaLista(t);
+//                return true;
+//            }
+//        }
         return false;
     }
+
+    public boolean valorDisponivel(BigDecimal valor) {
+        if (valor.compareTo(saldo) > 0) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean valorMajorQueZero(BigDecimal valor) {
+        if (valor.compareTo(BigDecimal.ZERO) < 0) {
+            return false;
+        }
+        return true;
+    }
+
 
     //setters
 
