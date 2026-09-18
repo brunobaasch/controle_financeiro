@@ -17,9 +17,7 @@ public class Conta {
 
     //metodos
     public boolean debitar(BigDecimal valorGasto) {
-        if (!valorDisponivel(valorGasto)) {
-            return false;
-        }else if(!valorMajorQueZero(valorGasto)){
+        if (validarSolicitacao(valorGasto, TipoTransacao.DESPESA)) {
             return false;
         }
         this.saldo = this.saldo.subtract(valorGasto);
@@ -27,7 +25,7 @@ public class Conta {
     }
 
     public boolean creditar(BigDecimal valorGasto) {
-        if (!valorMajorQueZero(valorGasto)) {
+        if (validarSolicitacao(valorGasto, TipoTransacao.RECEITA)) {
             return false;
         }
         this.saldo = this.saldo.add(valorGasto);
@@ -39,7 +37,7 @@ public class Conta {
     }
 
     public boolean registrarTransacao (BigDecimal valor, String categoria, TipoTransacao tipo) {
-        if (valorMajorQueZero(valor) && valorDisponivel(valor)) {
+        if (!validarSolicitacao(valor, tipo)) {
             Transacao t = new Transacao(valor, categoria, tipo);
             adicionarNaLista(t);
             if (tipo == TipoTransacao.DESPESA) {
@@ -63,19 +61,34 @@ public class Conta {
         return false;
     }
 
-    public boolean valorDisponivel(BigDecimal valor) {
-        if (valor.compareTo(saldo) > 0) {
+    public boolean validarSolicitacao (BigDecimal valor, TipoTransacao tipo) {  // false = validou
+        if (tipo == TipoTransacao.DESPESA) {
+            if (valor.compareTo(this.saldo) > 0 || valor.compareTo(BigDecimal.ZERO) < 0) {
+                return true;
+            }
+            return false;
+        }else if(tipo == TipoTransacao.RECEITA) {
+            if (valor.compareTo(BigDecimal.ZERO) < 0) {
+                return true;
+            }
             return false;
         }
         return true;
     }
 
-    public boolean valorMajorQueZero(BigDecimal valor) {
-        if (valor.compareTo(BigDecimal.ZERO) < 0) {
-            return false;
-        }
-        return true;
-    }
+//    public boolean valorDisponivel(BigDecimal valor) {
+//        if (valor.compareTo(saldo) > 0) {
+//            return false;
+//        }
+//        return true;
+//    }
+//
+//    public boolean valorMajorQueZero(BigDecimal valor) {
+//        if (valor.compareTo(BigDecimal.ZERO) < 0) {
+//            return false;
+//        }
+//        return true;
+//    }
 
 
     //setters
