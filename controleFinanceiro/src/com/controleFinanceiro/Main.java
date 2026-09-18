@@ -11,6 +11,8 @@ public class Main {
         Conta c1 = new Conta("Bruno");
         c1.creditar(BigDecimal.valueOf(2000));
 
+        System.out.println(c1.validarSolicitacao(BigDecimal.valueOf(-50),TipoTransacao.DESPESA));
+
         while (x!=0) {
             System.out.println("1- Registrar saída" +
                     "\n2- Registrar entrada" +

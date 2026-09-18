@@ -17,7 +17,7 @@ public class Conta {
 
     //metodos
     public boolean debitar(BigDecimal valorGasto) {
-        if (validarSolicitacao(valorGasto, TipoTransacao.DESPESA)) {
+        if (!validarSolicitacao(valorGasto, TipoTransacao.DESPESA)) {
             return false;
         }
         this.saldo = this.saldo.subtract(valorGasto);
@@ -25,7 +25,7 @@ public class Conta {
     }
 
     public boolean creditar(BigDecimal valorGasto) {
-        if (validarSolicitacao(valorGasto, TipoTransacao.RECEITA)) {
+        if (!validarSolicitacao(valorGasto, TipoTransacao.RECEITA)) {
             return false;
         }
         this.saldo = this.saldo.add(valorGasto);
@@ -37,7 +37,7 @@ public class Conta {
     }
 
     public boolean registrarTransacao (BigDecimal valor, String categoria, TipoTransacao tipo) {
-        if (!validarSolicitacao(valor, tipo)) {
+        if (validarSolicitacao(valor, tipo)) {
             Transacao t = new Transacao(valor, categoria, tipo);
             adicionarNaLista(t);
             if (tipo == TipoTransacao.DESPESA) {
@@ -61,19 +61,13 @@ public class Conta {
         return false;
     }
 
-    public boolean validarSolicitacao (BigDecimal valor, TipoTransacao tipo) {  // false = validou
+    public boolean validarSolicitacao (BigDecimal valor, TipoTransacao tipo) {
         if (tipo == TipoTransacao.DESPESA) {
-            if (valor.compareTo(this.saldo) > 0 || valor.compareTo(BigDecimal.ZERO) < 0) {
-                return true;
-            }
-            return false;
+            return valor.compareTo(this.saldo) <= 0 && valor.compareTo(BigDecimal.ZERO) >= 0;
         }else if(tipo == TipoTransacao.RECEITA) {
-            if (valor.compareTo(BigDecimal.ZERO) < 0) {
-                return true;
-            }
-            return false;
+            return valor.compareTo(BigDecimal.ZERO) >= 0;
         }
-        return true;
+        return false;
     }
 
 //    public boolean valorDisponivel(BigDecimal valor) {
