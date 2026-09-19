@@ -60,24 +60,10 @@ public class Conta {
 
     //setters
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
     //getters
-    public int getId() {
-        return id;
-    }
-
     public List<Transacao> getTransacoes() {
         return new ArrayList<>(transacoes);
     }
-
-    public String getNome() {
-        return nome;
-    }
-
-
     public BigDecimal getSaldo() {
         return saldo;
     }

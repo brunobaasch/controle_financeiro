@@ -10,23 +10,19 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         Conta c1 = new Conta("Bruno");
         c1.creditar(BigDecimal.valueOf(2000));
-
-        System.out.println(c1.validarSolicitacao(BigDecimal.valueOf(-50),TipoTransacao.DESPESA));
-
+        
         while (x!=0) {
             System.out.println("1- Registrar saída" +
                     "\n2- Registrar entrada" +
                     "\n3- Ver transacoes" +
                     "\n4- Ver saldo" +
                     "\n0- Sair");
-//            while (true) {
                 try {
                     x = scanner.nextInt();
                 } catch (InputMismatchException e) {
                     System.out.println("Digite um número!");
                     scanner.next();
                 }
-//            }
             switch (x) {
                 case 1 -> {
                     scanner.nextLine();
