@@ -10,13 +10,16 @@ public class Transacao {
     private BigDecimal valor;
     private TipoTransacao tipoTransacao;
     private LocalDate data;
+    private Conta conta;
+    private int contaAssociada;
 
-    public Transacao(BigDecimal valor, String categoria, TipoTransacao tipoTransacao) {
+    public Transacao(BigDecimal valor, String categoria, TipoTransacao tipoTransacao, int contaAssociada) {
         this.valor = valor;
         this.categoria = categoria;
         this.data = LocalDate.now();
         this.id = ++contador;
         this.tipoTransacao = tipoTransacao;
+        this.contaAssociada = contaAssociada;
     }
 
     //metodos
@@ -30,6 +33,10 @@ public class Transacao {
 
     public LocalDate getData() {
         return data;
+    }
+
+    public int getContaAssociada() {
+        return contaAssociada;
     }
 
     public BigDecimal getValor() {

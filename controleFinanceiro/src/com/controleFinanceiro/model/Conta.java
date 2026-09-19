@@ -9,6 +9,7 @@ public class Conta {
     private String nome;
     private BigDecimal saldo = new BigDecimal(0);
     private List<Transacao> transacoes = new ArrayList<>();
+    Arquivo arq = new Arquivo();
 
     public Conta(String nome) {
         this.id = ++contador;
@@ -16,6 +17,7 @@ public class Conta {
     }
 
     //metodos
+
     public boolean debitar(BigDecimal valorGasto) {
         if (validarSolicitacao(valorGasto, TipoTransacao.DESPESA)) {
             this.saldo = this.saldo.subtract(valorGasto);
@@ -23,7 +25,6 @@ public class Conta {
         }
         return false;
     }
-
     public boolean creditar(BigDecimal valorGasto) {
         if (validarSolicitacao(valorGasto, TipoTransacao.RECEITA)) {
             this.saldo = this.saldo.add(valorGasto);
@@ -38,11 +39,13 @@ public class Conta {
 
     public boolean registrarTransacao (BigDecimal valor, String categoria, TipoTransacao tipo) {
         if (validarSolicitacao(valor, tipo)) {
-            Transacao t = new Transacao(valor, categoria, tipo);
+            Transacao t = new Transacao(valor, categoria, tipo, getId());
             adicionarNaLista(t);
             if (tipo == TipoTransacao.DESPESA) {
+                escreve(valor, categoria, tipo, t);
                 return debitar(valor);
             }else if(tipo == TipoTransacao.RECEITA) {
+                escreve(valor, categoria, tipo, t);
                 return creditar(valor);
             }
         }
@@ -58,12 +61,18 @@ public class Conta {
         return false;
     }
 
-    //setters
+    public void escreve(BigDecimal valor, String categoria, TipoTransacao tipo, Transacao t) {
+        String texto = valor +";"+ categoria +";"+ tipo +";"+ t.getData();
+        arq.escrever(texto, "dadosTransacao.csv");
+    }
 
+    //setters
     //getters
+
     public List<Transacao> getTransacoes() {
         return new ArrayList<>(transacoes);
     }
+    public int getId() {return id;}
     public BigDecimal getSaldo() {
         return saldo;
     }

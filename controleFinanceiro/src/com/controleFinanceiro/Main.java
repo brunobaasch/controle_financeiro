@@ -1,22 +1,24 @@
 package com.controleFinanceiro;
 import java.math.BigDecimal;
-import java.sql.SQLOutput;
 import java.util.*;
 import com.controleFinanceiro.model.*;
 
 public class Main {
     public static void main(String[] args) {
+        Arquivo arq = new Arquivo();
         int x = -1;
         Scanner scanner = new Scanner(System.in);
         Conta c1 = new Conta("Bruno");
         c1.creditar(BigDecimal.valueOf(2000));
         
         while (x!=0) {
-            System.out.println("1- Registrar saída" +
-                    "\n2- Registrar entrada" +
-                    "\n3- Ver transacoes" +
-                    "\n4- Ver saldo" +
-                    "\n0- Sair");
+            System.out.println("""
+                    1- Registrar saída
+                    2- Registrar entrada
+                    3- Ver transacoes
+                    4- Ver saldo
+                    5- Ler arquivo
+                    0- Sair""");
                 try {
                     x = scanner.nextInt();
                 } catch (InputMismatchException e) {
@@ -54,13 +56,16 @@ public class Main {
                 }
 
                 case 4 -> System.out.println(c1.getSaldo());
+                case 5 -> arq.lerArquivo("dadosTransacao.csv");
             }
         }
     }
 
     public static void verTransacoes(List<Transacao> l) {
         for (Transacao t : l) {
-            System.out.println(t.getValor() + " ; " + t.getData() + " ; " + t.getCategoria() + " ; " + t.getTipoTransacao());
+            System.out.println(t.getValor() + " ; "
+                    + t.getData() + " ; " + t.getCategoria() + " ; "
+                    + t.getTipoTransacao() + " ; " + t.getContaAssociada());
         }
     }
 }
