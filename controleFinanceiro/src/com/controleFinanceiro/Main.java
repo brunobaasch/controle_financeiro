@@ -7,24 +7,27 @@ public class Main {
     public static void main(String[] args) {
         Arquivo arq = new Arquivo();
         int x = -1;
+        int y = -1;
         Scanner scanner = new Scanner(System.in);
         Conta c1 = new Conta("Bruno");
+        Conta c2 = new Conta("Eduardo");
         c1.creditar(BigDecimal.valueOf(2000));
-        
+
+
         while (x!=0) {
             System.out.println("""
-                    1- Registrar saída
-                    2- Registrar entrada
-                    3- Ver transacoes
-                    4- Ver saldo
-                    5- Ler arquivo
-                    0- Sair""");
-                try {
-                    x = scanner.nextInt();
-                } catch (InputMismatchException e) {
-                    System.out.println("Digite um número!");
-                    scanner.next();
-                }
+                1- Registrar saída
+                2- Registrar entrada
+                3- Ver transacoes
+                4- Ver saldo
+                5- Ler arquivo
+                0- Sair""");
+            try {
+                x = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Digite um número!");
+                scanner.next();
+            }
             switch (x) {
                 case 1 -> {
                     scanner.nextLine();
@@ -60,6 +63,8 @@ public class Main {
             }
         }
     }
+
+
 
     public static void verTransacoes(List<Transacao> l) {
         for (Transacao t : l) {
