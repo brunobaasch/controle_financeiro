@@ -64,8 +64,6 @@ public class Main {
         }
     }
 
-
-
     public static void verTransacoes(List<Transacao> l) {
         for (Transacao t : l) {
             System.out.println(t.getValor() + " ; "

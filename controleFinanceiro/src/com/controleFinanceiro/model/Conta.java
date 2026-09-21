@@ -9,6 +9,7 @@ public class Conta {
     private String nome;
     private BigDecimal saldo = new BigDecimal(0);
     private List<Transacao> transacoes = new ArrayList<>();
+    private Arquivo arq = new Arquivo();
 
     public Conta(String nome) {
         this.id = ++contador;
@@ -41,11 +42,10 @@ public class Conta {
         if (validarSolicitacao(valor, tipo)) {
             Transacao t = new Transacao(valor, categoria, tipo, getId());
             adicionarNaLista(t);
+            escreveTransacao(t);
             if (tipo == TipoTransacao.DESPESA) {
-                escreveTransacao(valor, categoria, tipo, t);
                 return debitar(valor);
             }else if(tipo == TipoTransacao.RECEITA) {
-                escreveTransacao(valor, categoria, tipo, t);
                 return creditar(valor);
             }
         }
@@ -61,14 +61,12 @@ public class Conta {
         return false;
     }
 
-    public void escreveTransacao(BigDecimal valor, String categoria, TipoTransacao tipo, Transacao t) {
-        Arquivo arq = new Arquivo();
-        String texto = valor +";"+ categoria +";"+ tipo +";"+ t.getData();
+    public void escreveTransacao(Transacao t) {
+        String texto = t.getValor() +";"+ t.getCategoria() +";"+ t.getTipoTransacao() +";"+ t.getData();
         arq.escrever(texto, "dadosTransacao.csv");
     }
 
     public void escreveConta(String nome) {
-        Arquivo arq = new Arquivo();
         String texto = nome +";"+ this.id;
         arq.escrever(texto, "dadosContas.csv");
     }
