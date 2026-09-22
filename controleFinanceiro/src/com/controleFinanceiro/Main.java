@@ -1,4 +1,8 @@
 package com.controleFinanceiro;
+import java.awt.image.AreaAveragingScaleFilter;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
 import com.controleFinanceiro.model.*;
@@ -69,6 +73,28 @@ public class Main {
             System.out.println(t.getValor() + " ; "
                     + t.getData() + " ; " + t.getCategoria() + " ; "
                     + t.getTipoTransacao() + " ; " + t.getContaAssociada());
+        }
+    }
+
+    public ArrayList<String> consultaTransacaoData(String dataIni, String dataFim) {
+        ArrayList<String> transacoes = new ArrayList<>();
+        try {
+            String[] dataIniF = dataIni.split("-");
+            String[] dataFimF = dataFim.split("-");
+
+            BufferedReader reader = new BufferedReader(new FileReader("dadosTransacao.csv"));
+            String linha = reader.readLine();
+            System.out.println("Li do arquivo:\n" + linha);
+            linha = reader.readLine();
+            while (linha != null) {
+                String[] t = linha.split(";");
+                String[] data = t[3].split("-");
+
+                linha = reader.readLine();
+            }
+            reader.close();
+        } catch (IOException e) {
+            System.out.println("Deu erro ao ler o arquivo: " + e.getMessage());
         }
     }
 }
