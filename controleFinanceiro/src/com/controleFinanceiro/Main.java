@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.*;
 import com.controleFinanceiro.model.*;
 
@@ -18,14 +19,15 @@ public class Main {
         c1.creditar(BigDecimal.valueOf(2000));
 
 
-        while (x!=0) {
+        while (x != 0) {
             System.out.println("""
-                1- Registrar saída
-                2- Registrar entrada
-                3- Ver transacoes
-                4- Ver saldo
-                5- Ler arquivo
-                0- Sair""");
+                    1- Registrar saída
+                    2- Registrar entrada
+                    3- Ver transacoes
+                    4- Ver saldo
+                    5- Ler arquivo
+                    6- Consultar transacoes por data
+                    0- Sair""");
             try {
                 x = scanner.nextInt();
             } catch (InputMismatchException e) {
@@ -64,6 +66,17 @@ public class Main {
 
                 case 4 -> System.out.println(c1.getSaldo());
                 case 5 -> arq.lerArquivo("dadosTransacao.csv");
+                case 6 -> {
+                    scanner.nextLine();
+                    System.out.println("Data inicio consulta: ");
+                    String ini = scanner.nextLine();
+                    System.out.println("Data fim consulta: ");
+                    String fim = scanner.nextLine();
+                    ArrayList<String> l = consultaTransacaoData(ini, fim);;
+                    for (String t:l) {
+                        System.out.println(t);
+                    }
+                }
             }
         }
     }
@@ -76,11 +89,11 @@ public class Main {
         }
     }
 
-    public ArrayList<String> consultaTransacaoData(String dataIni, String dataFim) {
+    public static ArrayList<String> consultaTransacaoData(String dataIni, String dataFim) {
         ArrayList<String> transacoes = new ArrayList<>();
         try {
-            String[] dataIniF = dataIni.split("-");
-            String[] dataFimF = dataFim.split("-");
+            LocalDate ini = LocalDate.parse(dataIni);
+            LocalDate fim = LocalDate.parse(dataFim);
 
             BufferedReader reader = new BufferedReader(new FileReader("dadosTransacao.csv"));
             String linha = reader.readLine();
@@ -88,13 +101,16 @@ public class Main {
             linha = reader.readLine();
             while (linha != null) {
                 String[] t = linha.split(";");
-                String[] data = t[3].split("-");
-
+                LocalDate data = LocalDate.parse(t[3]);
+                if (data.isAfter(ini) && data.isBefore(fim)) {
+                    transacoes.add(linha);
+                }
                 linha = reader.readLine();
             }
             reader.close();
         } catch (IOException e) {
             System.out.println("Deu erro ao ler o arquivo: " + e.getMessage());
         }
+        return transacoes;
     }
 }
