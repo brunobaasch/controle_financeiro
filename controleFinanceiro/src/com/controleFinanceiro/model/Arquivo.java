@@ -1,6 +1,8 @@
 package com.controleFinanceiro.model;
 
 import java.io.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Arquivo {
     public void escrever(String texto, String arquivo) {
@@ -33,6 +35,29 @@ public class Arquivo {
                 System.out.println("Deu erro ao ler o arquivo: " + e.getMessage());
             }
         }
+    }
+
+    public ArrayList<String> consultaTransacaoData(String dataIni, String dataFim) {
+        ArrayList<String> transacoes = new ArrayList<>();
+        try {
+            LocalDate ini = LocalDate.parse(dataIni);
+            LocalDate fim = LocalDate.parse(dataFim);
+
+            BufferedReader reader = new BufferedReader(new FileReader("dadosTransacao.csv"));
+            String linha = reader.readLine();
+            while (linha != null) {
+                String[] t = linha.split(";");
+                LocalDate data = LocalDate.parse(t[3]);
+                if (!data.isBefore(ini) && !data.isAfter(fim)) {
+                    transacoes.add(linha);
+                }
+                linha = reader.readLine();
+            }
+            reader.close();
+        } catch (IOException e) {
+            System.out.println("Deu erro ao ler o arquivo: " + e.getMessage());
+        }
+        return transacoes;
     }
 }
 

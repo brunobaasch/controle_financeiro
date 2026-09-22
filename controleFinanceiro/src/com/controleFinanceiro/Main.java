@@ -72,7 +72,7 @@ public class Main {
                     String ini = scanner.nextLine();
                     System.out.println("Data fim consulta: ");
                     String fim = scanner.nextLine();
-                    ArrayList<String> l = consultaTransacaoData(ini, fim);;
+                    ArrayList<String> l = arq.consultaTransacaoData(ini, fim);
                     for (String t:l) {
                         System.out.println(t);
                     }
@@ -87,28 +87,5 @@ public class Main {
                     + t.getData() + " ; " + t.getCategoria() + " ; "
                     + t.getTipoTransacao() + " ; " + t.getContaAssociada());
         }
-    }
-
-    public static ArrayList<String> consultaTransacaoData(String dataIni, String dataFim) {
-        ArrayList<String> transacoes = new ArrayList<>();
-        try {
-            LocalDate ini = LocalDate.parse(dataIni);
-            LocalDate fim = LocalDate.parse(dataFim);
-
-            BufferedReader reader = new BufferedReader(new FileReader("dadosTransacao.csv"));
-            String linha = reader.readLine();
-            while (linha != null) {
-                String[] t = linha.split(";");
-                LocalDate data = LocalDate.parse(t[3]);
-                if (!data.isBefore(ini) && !data.isAfter(fim)) {
-                    transacoes.add(linha);
-                }
-                linha = reader.readLine();
-            }
-            reader.close();
-        } catch (IOException e) {
-            System.out.println("Deu erro ao ler o arquivo: " + e.getMessage());
-        }
-        return transacoes;
     }
 }
