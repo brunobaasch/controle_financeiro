@@ -1,5 +1,4 @@
 package com.controleFinanceiro;
-import java.awt.image.AreaAveragingScaleFilter;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -32,6 +31,7 @@ public class Main {
                 x = scanner.nextInt();
             } catch (InputMismatchException e) {
                 System.out.println("Digite um número!");
+                x = -1;
                 scanner.next();
             }
             switch (x) {
@@ -52,16 +52,22 @@ public class Main {
                 case 2 -> {
                     scanner.nextLine();
                     System.out.println("Digite o valor da entrada: ");
-                    String valor = scanner.nextLine();
-                    BigDecimal val = new BigDecimal(valor);
-                    System.out.println("Digite a categoria: ");
-                    String cat = scanner.nextLine();
-                    boolean teste = c1.registrarTransacao(val, cat, TipoTransacao.RECEITA);
-                    System.out.println(teste);
+                    try {
+                        String valor = scanner.nextLine();
+                        BigDecimal val = new BigDecimal(valor);
+                        System.out.println("Digite a categoria: ");
+                        String cat = scanner.nextLine();
+                        boolean teste = c1.registrarTransacao(val, cat, TipoTransacao.RECEITA);
+                        System.out.println(teste);
+                    } catch (NumberFormatException e){
+                        System.out.println("Digite um valor númerico!");
+                    }
                 }
                 case 3 -> {
-                    List<Transacao> l = new ArrayList<>(c1.getTransacoes());
-                    verTransacoes(l);
+                    ArrayList<Transacao> transacoes = arq.transacoesSalva();
+                    for (Transacao t:transacoes) {
+                        System.out.println(t.getValor() + " " + t.getCategoria() + " " + t.getTipoTransacao() + " " + t.getData());
+                    }
                 }
 
                 case 4 -> System.out.println(c1.getSaldo());
@@ -72,20 +78,20 @@ public class Main {
                     String ini = scanner.nextLine();
                     System.out.println("Data fim consulta: ");
                     String fim = scanner.nextLine();
-                    ArrayList<String> l = arq.consultaTransacaoData(ini, fim);
-                    for (String t:l) {
-                        System.out.println(t);
+                    ArrayList<Transacao> l = arq.consultaTransacaoData(ini, fim);
+                    for (Transacao t:l) {
+                        System.out.println(t.getValor() + " " + t.getCategoria() + " " + t.getTipoTransacao() + " " + t.getData());
                     }
                 }
             }
         }
     }
 
-    public static void verTransacoes(List<Transacao> l) {
-        for (Transacao t : l) {
-            System.out.println(t.getValor() + " ; "
-                    + t.getData() + " ; " + t.getCategoria() + " ; "
-                    + t.getTipoTransacao() + " ; " + t.getContaAssociada());
-        }
-    }
+//    public static void verTransacoes(List<Transacao> l) {
+//        for (Transacao t : l) {
+//            System.out.println(t.getValor() + " ; "
+//                    + t.getData() + " ; " + t.getCategoria() + " ; "
+//                    + t.getTipoTransacao() + " ; " + t.getContaAssociada());
+//        }
+//    }
 }

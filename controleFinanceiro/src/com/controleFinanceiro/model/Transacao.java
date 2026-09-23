@@ -22,12 +22,19 @@ public class Transacao {
         this.contaAssociada = contaAssociada;
     }
 
+    public Transacao(BigDecimal valor, String categoria, TipoTransacao tipoTransacao, int contaAssociada, LocalDate data) {
+        this.valor = valor;
+        this.categoria = categoria;
+        this.contaAssociada = contaAssociada;
+        this.data = data;
+        this.id = ++contador;
+        this.tipoTransacao = tipoTransacao;
+    }
+
     //metodos
 
     //setters
-
     //getters
-
 
     public TipoTransacao getTipoTransacao() { return tipoTransacao; }
 

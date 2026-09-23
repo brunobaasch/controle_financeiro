@@ -1,6 +1,7 @@
 package com.controleFinanceiro.model;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -27,6 +28,7 @@ public class Arquivo {
                 System.out.println("Li do arquivo:\n" + linha);
                 linha = reader.readLine();
                 while (linha != null) {
+
                     System.out.println(linha);
                     linha = reader.readLine();
                 }
@@ -37,20 +39,16 @@ public class Arquivo {
         }
     }
 
-    public ArrayList<String> consultaTransacaoData(String dataIni, String dataFim) {
-        ArrayList<String> transacoes = new ArrayList<>();
+    public ArrayList<Transacao> transacoesSalva() {
+        ArrayList<Transacao> transacoes = new ArrayList<>();
         try {
-            LocalDate ini = LocalDate.parse(dataIni);
-            LocalDate fim = LocalDate.parse(dataFim);
-
             BufferedReader reader = new BufferedReader(new FileReader("dadosTransacao.csv"));
-            String linha = reader.readLine();
+            String linha = reader.readLine(); // lê uma linha por vez
             while (linha != null) {
                 String[] t = linha.split(";");
                 LocalDate data = LocalDate.parse(t[3]);
-                if (!data.isBefore(ini) && !data.isAfter(fim)) {
-                    transacoes.add(linha);
-                }
+                Transacao transacao = new Transacao(new BigDecimal(t[0]), t[1], TipoTransacao.valueOf(t[2]),Integer.parseInt(t[4]),data);
+                transacoes.add(transacao);
                 linha = reader.readLine();
             }
             reader.close();
@@ -58,6 +56,20 @@ public class Arquivo {
             System.out.println("Deu erro ao ler o arquivo: " + e.getMessage());
         }
         return transacoes;
+    }
+
+    public ArrayList<Transacao> consultaTransacaoData(String dataIni, String dataFim) {
+        ArrayList<Transacao> transacoes = transacoesSalva();
+        ArrayList<Transacao> transacoesData = new ArrayList<>();
+        LocalDate ini = LocalDate.parse(dataIni);
+        LocalDate fim = LocalDate.parse(dataFim);
+        for (Transacao t:transacoes) {
+            LocalDate data = t.getData();
+            if (!data.isBefore(ini) && !data.isAfter(fim)) {
+                transacoesData.add(t);
+            }
+        }
+        return transacoesData;
     }
 }
 

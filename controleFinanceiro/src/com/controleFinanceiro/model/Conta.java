@@ -62,7 +62,7 @@ public class Conta {
     }
 
     public void escreveTransacao(Transacao t) {
-        String texto = t.getValor() +";"+ t.getCategoria() +";"+ t.getTipoTransacao() +";"+ t.getData();
+        String texto = t.getValor() +";"+ t.getCategoria() +";"+ t.getTipoTransacao() +";"+ t.getData() + ";" + t.getContaAssociada();
         arq.escrever(texto, "dadosTransacao.csv");
     }
 
