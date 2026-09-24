@@ -9,15 +9,17 @@ import com.controleFinanceiro.model.*;
 
 public class Main {
     public static void main(String[] args) {
-        Arquivo arq = new Arquivo();
-        int x = -1;
-        int y = -1;
         Scanner scanner = new Scanner(System.in);
         Conta c1 = new Conta("Bruno");
         Conta c2 = new Conta("Eduardo");
-        c1.creditar(BigDecimal.valueOf(2000));
+        menu(c1);
+    }
 
-
+    public static void menu(Conta conta) {
+        Scanner scanner = new Scanner(System.in);
+        Arquivo arq = new Arquivo();
+        int x = -1;
+        int y = -1;
         while (x != 0) {
             System.out.println("""
                     1- Registrar saída
@@ -43,8 +45,7 @@ public class Main {
                         BigDecimal val = new BigDecimal(valor);
                         System.out.println("Digite a categoria: ");
                         String cat = scanner.nextLine();
-                        boolean teste = c1.registrarTransacao(val, cat, TipoTransacao.DESPESA);
-                        System.out.println(teste);
+                        conta.registrarTransacao(val, cat, TipoTransacao.DESPESA);
                     } catch (NumberFormatException e) {
                         System.out.println("Digite um valor númerico!");
                     }
@@ -57,20 +58,19 @@ public class Main {
                         BigDecimal val = new BigDecimal(valor);
                         System.out.println("Digite a categoria: ");
                         String cat = scanner.nextLine();
-                        boolean teste = c1.registrarTransacao(val, cat, TipoTransacao.RECEITA);
-                        System.out.println(teste);
-                    } catch (NumberFormatException e){
+                        conta.registrarTransacao(val, cat, TipoTransacao.RECEITA);
+                    } catch (NumberFormatException e) {
                         System.out.println("Digite um valor númerico!");
                     }
                 }
                 case 3 -> {
                     ArrayList<Transacao> transacoes = arq.transacoesSalva();
-                    for (Transacao t:transacoes) {
+                    for (Transacao t : transacoes) {
                         System.out.println(t.getValor() + " " + t.getCategoria() + " " + t.getTipoTransacao() + " " + t.getData());
                     }
                 }
 
-                case 4 -> System.out.println(c1.getSaldo());
+                case 4 -> System.out.println(conta.getSaldo());
                 case 5 -> arq.lerArquivo("dadosTransacao.csv");
                 case 6 -> {
                     scanner.nextLine();
@@ -79,19 +79,11 @@ public class Main {
                     System.out.println("Data fim consulta: ");
                     String fim = scanner.nextLine();
                     ArrayList<Transacao> l = arq.consultaTransacaoData(ini, fim);
-                    for (Transacao t:l) {
+                    for (Transacao t : l) {
                         System.out.println(t.getValor() + " " + t.getCategoria() + " " + t.getTipoTransacao() + " " + t.getData());
                     }
                 }
             }
         }
     }
-
-//    public static void verTransacoes(List<Transacao> l) {
-//        for (Transacao t : l) {
-//            System.out.println(t.getValor() + " ; "
-//                    + t.getData() + " ; " + t.getCategoria() + " ; "
-//                    + t.getTipoTransacao() + " ; " + t.getContaAssociada());
-//        }
-//    }
 }

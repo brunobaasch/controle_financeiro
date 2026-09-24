@@ -1,7 +1,11 @@
 package com.controleFinanceiro.model;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
+import com.controleFinanceiro.exceptions.*;
 
 public class Conta {
     private static int contador = 0;
@@ -14,22 +18,34 @@ public class Conta {
     public Conta(String nome) {
         this.id = ++contador;
         this.nome = nome;
-        escreveConta(nome);
+        escreveConta();
     }
 
     //metodos
 
     public boolean debitar(BigDecimal valorGasto) {
-        if (validarSolicitacao(valorGasto, TipoTransacao.DESPESA)) {
-            this.saldo = this.saldo.subtract(valorGasto);
-            return true;
+        try {
+            if (validarSolicitacao(valorGasto, TipoTransacao.DESPESA)) {
+                this.saldo = this.saldo.subtract(valorGasto);
+                return true;
+            }
+        } catch (ValueIsBiggerThanBalanceException e) {
+            System.out.println("Valor maior que saldo");
+        } catch (ValueIsLessZeroException e) {
+            System.out.println("Valor menor que zero");
         }
         return false;
     }
     public boolean creditar(BigDecimal valorGasto) {
-        if (validarSolicitacao(valorGasto, TipoTransacao.RECEITA)) {
-            this.saldo = this.saldo.add(valorGasto);
-            return true;
+        try {
+            if (validarSolicitacao(valorGasto, TipoTransacao.RECEITA)) {
+                this.saldo = this.saldo.add(valorGasto);
+                return true;
+            }
+        } catch (ValueIsBiggerThanBalanceException e) {
+            System.out.println("Valor maior que saldo");
+        } catch (ValueIsLessZeroException e) {
+            System.out.println("Valor menor que zero");
         }
         return false;
     }
@@ -38,27 +54,33 @@ public class Conta {
         this.transacoes.add(t);
     }
 
-    public boolean registrarTransacao (BigDecimal valor, String categoria, TipoTransacao tipo) {
-        if (validarSolicitacao(valor, tipo)) {
-            Transacao t = new Transacao(valor, categoria, tipo, getId());
-            adicionarNaLista(t);
-            escreveTransacao(t);
-            if (tipo == TipoTransacao.DESPESA) {
-                return debitar(valor);
-            }else if(tipo == TipoTransacao.RECEITA) {
-                return creditar(valor);
+    public void registrarTransacao (BigDecimal valor, String categoria, TipoTransacao tipo) {
+        try {
+            if (validarSolicitacao(valor, tipo)) {
+                Transacao t = new Transacao(valor, categoria, tipo, getId());
+                adicionarNaLista(t);
+                escreveTransacao(t);
+                if (tipo == TipoTransacao.DESPESA) {
+                    debitar(valor);
+                } else if (tipo == TipoTransacao.RECEITA) {
+                    creditar(valor);
+                }
             }
+        } catch (ValueIsBiggerThanBalanceException e) {
+            System.out.println("Valor maior que saldo");
+        } catch (ValueIsLessZeroException e) {
+            System.out.println("Valor menor que zero");
         }
-        return false;
     }
 
-    public boolean validarSolicitacao (BigDecimal valor, TipoTransacao tipo) {
-        if (tipo == TipoTransacao.DESPESA) {
-            return valor.compareTo(this.saldo) <= 0 && valor.compareTo(BigDecimal.ZERO) >= 0;
-        }else if(tipo == TipoTransacao.RECEITA) {
-            return valor.compareTo(BigDecimal.ZERO) >= 0;
+    public boolean validarSolicitacao (BigDecimal valor, TipoTransacao tipo) throws ValueIsBiggerThanBalanceException, ValueIsLessZeroException {
+        if (valor.compareTo(BigDecimal.ZERO) < 0) {
+            throw new ValueIsLessZeroException();
         }
-        return false;
+        if(tipo == TipoTransacao.DESPESA && valor.compareTo(this.saldo) > 0) {
+            throw new ValueIsBiggerThanBalanceException();
+        }
+        return true;
     }
 
     public void escreveTransacao(Transacao t) {
@@ -66,10 +88,29 @@ public class Conta {
         arq.escrever(texto, "dadosTransacao.csv");
     }
 
-    public void escreveConta(String nome) {
-        String texto = nome +";"+ this.id;
-        arq.escrever(texto, "dadosContas.csv");
+    public void escreveConta() {
+        boolean contaCadastrada = false;
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("dadosContas.csv"));
+            String linha = reader.readLine(); // lê uma linha por vez
+            while (linha != null) {
+                String[] t = linha.split(";");
+                int idT = Integer.parseInt(t[1]);
+                if (idT == this.id) {
+                    contaCadastrada = true;
+                }
+                linha = reader.readLine();
+            }
+            reader.close();
+        } catch (IOException e) {
+            System.out.println("Deu erro ao ler o arquivo: " + e.getMessage());
+        }
+        if (!contaCadastrada) {
+            String texto = this.nome +";"+ this.id;
+            arq.escrever(texto, "dadosContas.csv");
+        }
     }
+
 
     //setters
     //getters
