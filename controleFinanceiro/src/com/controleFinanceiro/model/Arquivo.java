@@ -14,8 +14,7 @@ public class Arquivo {
             writer.close();
             // importante: "fecha" o arquivo, garantindo que tudo foi salvo
             System.out.println("Arquivo salvo com sucesso!");
-        } catch (
-                IOException e) {
+        } catch (IOException e) {
             System.out.println("Deu erro ao salvar o arquivo: " + e.getMessage());
         }
     }

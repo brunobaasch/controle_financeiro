@@ -4,20 +4,17 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Transacao {
-    private static int contador = 0;
-    private int id = 0;
-    private String categoria;
-    private BigDecimal valor;
-    private TipoTransacao tipoTransacao;
-    private LocalDate data;
+    private final String categoria;
+    private final BigDecimal valor;
+    private final TipoTransacao tipoTransacao;
+    private final LocalDate data;
     private Conta conta;
-    private int contaAssociada;
+    private final int contaAssociada;
 
     public Transacao(BigDecimal valor, String categoria, TipoTransacao tipoTransacao, int contaAssociada) {
         this.valor = valor;
         this.categoria = categoria;
         this.data = LocalDate.now();
-        this.id = ++contador;
         this.tipoTransacao = tipoTransacao;
         this.contaAssociada = contaAssociada;
     }
@@ -27,7 +24,6 @@ public class Transacao {
         this.categoria = categoria;
         this.contaAssociada = contaAssociada;
         this.data = data;
-        this.id = ++contador;
         this.tipoTransacao = tipoTransacao;
     }
 

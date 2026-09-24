@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
+
+import com.controleFinanceiro.exceptions.ValueIsBiggerThanBalanceException;
+import com.controleFinanceiro.exceptions.ValueIsLessZeroException;
 import com.controleFinanceiro.model.*;
 
 public class Main {
@@ -48,6 +51,10 @@ public class Main {
                         conta.registrarTransacao(val, cat, TipoTransacao.DESPESA);
                     } catch (NumberFormatException e) {
                         System.out.println("Digite um valor númerico!");
+                    } catch (ValueIsLessZeroException e) {
+                        System.out.println("Valor menor que zero");
+                    } catch (ValueIsBiggerThanBalanceException e) {
+                        System.out.println("Valor maior que saldo");
                     }
                 }
                 case 2 -> {
@@ -61,6 +68,10 @@ public class Main {
                         conta.registrarTransacao(val, cat, TipoTransacao.RECEITA);
                     } catch (NumberFormatException e) {
                         System.out.println("Digite um valor númerico!");
+                    } catch (ValueIsLessZeroException e) {
+                        System.out.println("Valor menor que zero");
+                    } catch (ValueIsBiggerThanBalanceException e) {
+                        System.out.println("Valor maior que saldo");
                     }
                 }
                 case 3 -> {

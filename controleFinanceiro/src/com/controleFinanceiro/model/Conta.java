@@ -23,53 +23,27 @@ public class Conta {
 
     //metodos
 
-    public boolean debitar(BigDecimal valorGasto) {
-        try {
-            if (validarSolicitacao(valorGasto, TipoTransacao.DESPESA)) {
-                this.saldo = this.saldo.subtract(valorGasto);
-                return true;
-            }
-        } catch (ValueIsBiggerThanBalanceException e) {
-            System.out.println("Valor maior que saldo");
-        } catch (ValueIsLessZeroException e) {
-            System.out.println("Valor menor que zero");
-        }
-        return false;
+    public void debitar(BigDecimal valorGasto) {
+        this.saldo = this.saldo.subtract(valorGasto);
     }
-    public boolean creditar(BigDecimal valorGasto) {
-        try {
-            if (validarSolicitacao(valorGasto, TipoTransacao.RECEITA)) {
-                this.saldo = this.saldo.add(valorGasto);
-                return true;
-            }
-        } catch (ValueIsBiggerThanBalanceException e) {
-            System.out.println("Valor maior que saldo");
-        } catch (ValueIsLessZeroException e) {
-            System.out.println("Valor menor que zero");
-        }
-        return false;
+    public void creditar(BigDecimal valorGasto) {
+        this.saldo = this.saldo.add(valorGasto);
     }
 
     protected void adicionarNaLista (Transacao t) {
         this.transacoes.add(t);
     }
 
-    public void registrarTransacao (BigDecimal valor, String categoria, TipoTransacao tipo) {
-        try {
-            if (validarSolicitacao(valor, tipo)) {
-                Transacao t = new Transacao(valor, categoria, tipo, getId());
-                adicionarNaLista(t);
-                escreveTransacao(t);
-                if (tipo == TipoTransacao.DESPESA) {
-                    debitar(valor);
-                } else if (tipo == TipoTransacao.RECEITA) {
-                    creditar(valor);
-                }
+    public void registrarTransacao (BigDecimal valor, String categoria, TipoTransacao tipo) throws ValueIsLessZeroException, ValueIsBiggerThanBalanceException {
+        if (validarSolicitacao(valor, tipo)) {
+            Transacao t = new Transacao(valor, categoria, tipo, getId());
+            adicionarNaLista(t);
+            escreveTransacao(t);
+            if (tipo == TipoTransacao.DESPESA) {
+                debitar(valor);
+            } else if (tipo == TipoTransacao.RECEITA) {
+                creditar(valor);
             }
-        } catch (ValueIsBiggerThanBalanceException e) {
-            System.out.println("Valor maior que saldo");
-        } catch (ValueIsLessZeroException e) {
-            System.out.println("Valor menor que zero");
         }
     }
 
