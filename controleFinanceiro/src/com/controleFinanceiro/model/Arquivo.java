@@ -12,7 +12,6 @@ public class Arquivo {
             writer.write(texto);
             writer.newLine();
             writer.close();
-            // importante: "fecha" o arquivo, garantindo que tudo foi salvo
             System.out.println("Arquivo salvo com sucesso!");
         } catch (IOException e) {
             System.out.println("Deu erro ao salvar o arquivo: " + e.getMessage());
@@ -37,10 +36,11 @@ public class Arquivo {
         }
     }
 
-    public ArrayList<Transacao> transacoesSalva() {
+    public ArrayList<Transacao> transacoesSalva(String texto) {
+        BufferedReader reader;
         ArrayList<Transacao> transacoes = new ArrayList<>();
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("dadosTransacao.csv"));
+            reader = new BufferedReader(new FileReader(texto+".csv"));
             String linha; // lê uma linha por vez
             while ((linha = reader.readLine()) != null) {
                 if (linha.isBlank()) {

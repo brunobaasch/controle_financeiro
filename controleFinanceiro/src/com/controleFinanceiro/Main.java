@@ -50,10 +50,8 @@ public class Main {
                         conta.registrarTransacao(val, cat, TipoTransacao.DESPESA);
                     } catch (NumberFormatException e) {
                         System.out.println("Digite um valor númerico!");
-                    } catch (ValueIsLessZeroException e) {
-                        System.out.println("Valor menor que zero");
-                    } catch (ValueIsBiggerThanBalanceException e) {
-                        System.out.println("Valor maior que saldo");
+                    } catch (ValueIsLessZeroException | ValueIsBiggerThanBalanceException e) {
+                        System.out.println(e.getMessage());
                     }
                 }
                 case 2 -> {
@@ -67,14 +65,12 @@ public class Main {
                         conta.registrarTransacao(val, cat, TipoTransacao.RECEITA);
                     } catch (NumberFormatException e) {
                         System.out.println("Digite um valor númerico!");
-                    } catch (ValueIsLessZeroException e) {
-                        System.out.println("Valor menor que zero");
-                    } catch (ValueIsBiggerThanBalanceException e) {
-                        System.out.println("Valor maior que saldo");
+                    } catch (ValueIsLessZeroException | ValueIsBiggerThanBalanceException e) {
+                        System.out.println(e.getMessage());
                     }
                 }
                 case 3 -> {
-                    ArrayList<Transacao> transacoes = arq.transacoesSalva();
+                    ArrayList<Transacao> transacoes = arq.transacoesSalva("dadosTransacao");
                     for (Transacao t : transacoes) {
                         System.out.println(t.getValor() + " " + t.getCategoria() + " " + t.getTipoTransacao() + " " + t.getData());
                     }
