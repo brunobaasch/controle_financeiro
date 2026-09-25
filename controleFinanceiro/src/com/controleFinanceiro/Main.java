@@ -29,8 +29,7 @@ public class Main {
                     2- Registrar entrada
                     3- Ver transacoes
                     4- Ver saldo
-                    5- Ler arquivo
-                    6- Consultar transacoes por data
+                    5- Ler arquivo 
                     0- Sair""");
             try {
                 x = scanner.nextInt();
@@ -83,17 +82,6 @@ public class Main {
 
                 case 4 -> System.out.println(conta.getSaldo());
                 case 5 -> arq.lerArquivo("dadosTransacao.csv");
-                case 6 -> {
-                    scanner.nextLine();
-                    System.out.println("Data inicio consulta: ");
-                    String ini = scanner.nextLine();
-                    System.out.println("Data fim consulta: ");
-                    String fim = scanner.nextLine();
-                    ArrayList<Transacao> l = arq.consultaTransacaoData(ini, fim);
-                    for (Transacao t : l) {
-                        System.out.println(t.getValor() + " " + t.getCategoria() + " " + t.getTipoTransacao() + " " + t.getData());
-                    }
-                }
             }
         }
     }

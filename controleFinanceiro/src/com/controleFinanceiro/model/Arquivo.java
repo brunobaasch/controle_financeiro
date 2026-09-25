@@ -23,13 +23,12 @@ public class Arquivo {
         {
             try {
                 BufferedReader reader = new BufferedReader(new FileReader(arquivo));
-                String linha = reader.readLine(); // lê uma linha por vez
-                System.out.println("Li do arquivo:\n" + linha);
-                linha = reader.readLine();
-                while (linha != null) {
-
+                String linha; // lê uma linha por vez
+                while ((linha = reader.readLine() ) != null) {
+                    if (linha.isBlank()){
+                        continue;
+                    }
                     System.out.println(linha);
-                    linha = reader.readLine();
                 }
                 reader.close();
             } catch (IOException e) {
@@ -42,33 +41,21 @@ public class Arquivo {
         ArrayList<Transacao> transacoes = new ArrayList<>();
         try {
             BufferedReader reader = new BufferedReader(new FileReader("dadosTransacao.csv"));
-            String linha = reader.readLine(); // lê uma linha por vez
-            while (linha != null) {
+            String linha; // lê uma linha por vez
+            while ((linha = reader.readLine()) != null) {
+                if (linha.isBlank()) {
+                    continue;
+                }
                 String[] t = linha.split(";");
                 LocalDate data = LocalDate.parse(t[3]);
-                Transacao transacao = new Transacao(new BigDecimal(t[0]), t[1], TipoTransacao.valueOf(t[2]),Integer.parseInt(t[4]),data);
+                Transacao transacao = new Transacao(new BigDecimal(t[0]), t[1], TipoTransacao.valueOf(t[2]), Integer.parseInt(t[4]), data);
                 transacoes.add(transacao);
-                linha = reader.readLine();
             }
             reader.close();
         } catch (IOException e) {
             System.out.println("Deu erro ao ler o arquivo: " + e.getMessage());
         }
         return transacoes;
-    }
-
-    public ArrayList<Transacao> consultaTransacaoData(String dataIni, String dataFim) {
-        ArrayList<Transacao> transacoes = transacoesSalva();
-        ArrayList<Transacao> transacoesData = new ArrayList<>();
-        LocalDate ini = LocalDate.parse(dataIni);
-        LocalDate fim = LocalDate.parse(dataFim);
-        for (Transacao t:transacoes) {
-            LocalDate data = t.getData();
-            if (!data.isBefore(ini) && !data.isAfter(fim)) {
-                transacoesData.add(t);
-            }
-        }
-        return transacoesData;
     }
 }
 
