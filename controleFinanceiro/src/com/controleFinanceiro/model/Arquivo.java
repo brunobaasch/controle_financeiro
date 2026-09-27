@@ -52,6 +52,8 @@ public class Arquivo {
                 transacoes.add(transacao);
             }
             reader.close();
+        } catch (FileNotFoundException e) {
+
         } catch (IOException e) {
             System.out.println("Deu erro ao ler o arquivo: " + e.getMessage());
         }

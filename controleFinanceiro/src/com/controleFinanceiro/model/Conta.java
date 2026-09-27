@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.*;
 import com.controleFinanceiro.exceptions.*;
 
@@ -85,6 +86,14 @@ public class Conta {
         }
     }
 
+    public List<Transacao> consultaData(String dataIni, String dataFim) {
+        LocalDate ini = LocalDate.parse(dataIni);
+        LocalDate fim = LocalDate.parse(dataFim);
+        ArrayList<Transacao> transacoes = arq.transacoesSalva("dadosTransacao");
+        return transacoes.stream()
+                .filter(t -> !t.getData().isBefore(ini) && !t.getData().isAfter(fim))
+                .toList();
+    }
 
     //setters
     //getters
@@ -96,5 +105,4 @@ public class Conta {
     public BigDecimal getSaldo() {
         return saldo;
     }
-
 }

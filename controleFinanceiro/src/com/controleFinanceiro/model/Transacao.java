@@ -8,7 +8,6 @@ public class Transacao {
     private final BigDecimal valor;
     private final TipoTransacao tipoTransacao;
     private final LocalDate data;
-    private Conta conta;
     private final int contaAssociada;
 
     public Transacao(BigDecimal valor, String categoria, TipoTransacao tipoTransacao, int contaAssociada) {

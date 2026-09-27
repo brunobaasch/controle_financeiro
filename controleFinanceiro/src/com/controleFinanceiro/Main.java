@@ -15,12 +15,17 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         Conta c1 = new Conta("Bruno");
         Conta c2 = new Conta("Eduardo");
-        menu(c1);
+
+        List<Transacao> l = c1.consultaData("2026-09-23", "2026-09-25");
+        for (Transacao t : l) {
+            System.out.println(t.getValor() + " " + t.getCategoria() + " " + t.getTipoTransacao() + " " + t.getData());
+        }
+//      menu(c1);
     }
 
     public static void menu(Conta conta) {
-        Scanner scanner = new Scanner(System.in);
         Arquivo arq = new Arquivo();
+        Scanner scanner = new Scanner(System.in);
         int x = -1;
         int y = -1;
         while (x != 0) {
