@@ -1,14 +1,13 @@
 package com.controleFinanceiro;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.*;
 
 import com.controleFinanceiro.exceptions.ValueIsBiggerThanBalanceException;
 import com.controleFinanceiro.exceptions.ValueIsLessZeroException;
-import com.controleFinanceiro.model.*;
+import com.controleFinanceiro.model.Arquivo;
+import com.controleFinanceiro.model.Conta;
+import com.controleFinanceiro.model.TipoTransacao;
+import com.controleFinanceiro.model.Transacao;
 
 public class Main {
     public static void main(String[] args) {

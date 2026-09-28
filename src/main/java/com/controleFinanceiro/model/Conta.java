@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
-import com.controleFinanceiro.exceptions.*;
+
+import com.controleFinanceiro.exceptions.ValueIsBiggerThanBalanceException;
+import com.controleFinanceiro.exceptions.ValueIsLessZeroException;
 
 public class Conta {
     private static int contador = 0;
