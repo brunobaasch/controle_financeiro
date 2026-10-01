@@ -21,7 +21,7 @@ public class ContasDaoImpl implements Dao<Contas> {
         ResultSet resultSet = null;
 
         try {
-            String sqlConsultaId = "SELECT * FROM contas WHERE id = ?";
+            String sqlConsultaId = "SELECT * FROM contas WHERE id_conta = ?";
             preparedStatement = connection.prepareStatement(sqlConsultaId);
             preparedStatement.setInt(1, id);
 
@@ -78,7 +78,7 @@ public class ContasDaoImpl implements Dao<Contas> {
             preparedStatement.setString(2, contas.getNome());
             preparedStatement.setString(3, contas.getEmail());
             preparedStatement.setString(4, contas.getCpf());
-            preparedStatement.executeQuery();
+            int resultado = preparedStatement.executeUpdate();
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -94,8 +94,23 @@ public class ContasDaoImpl implements Dao<Contas> {
     }
 
     @Override
-    public void delete(Contas contas) {
-
+    public void deleteById(int id) {
+        PreparedStatement preparedStatement = null;
+        findById(id);
+        try {
+            String deleteConsulta = "DELETE FROM contas WHERE id_conta = ?";
+            preparedStatement = connection.prepareStatement(deleteConsulta);
+            preparedStatement.setInt(1, id);
+            int result = preparedStatement.executeUpdate();
+            if (result == 0) {
+                throw new ContasNotFoundException("ID não encontrado");
+            }
+        } catch (SQLException e) {
+            throw new ContasNotFoundException(e.getMessage());
+        }
+        finally {
+            DataBaseConnection.closeStatemant(preparedStatement);
+        }
     }
 
     private static Contas getContas(ResultSet resultSet) throws SQLException {

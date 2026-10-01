@@ -28,7 +28,7 @@ public class TransacaoDao implements Dao<Transacoes> {
     }
 
     @Override
-    public void delete(Transacoes transacoes) {
+    public void deleteById(int id) {
 
     }
 }
