@@ -1,88 +1,24 @@
 package com.controleFinanceiro;
-import java.math.BigDecimal;
-import java.util.*;
 
-import com.controleFinanceiro.exceptions.ValueIsBiggerThanBalanceException;
-import com.controleFinanceiro.exceptions.ValueIsLessZeroException;
-import com.controleFinanceiro.model.Arquivo;
-import com.controleFinanceiro.model.Conta;
-import com.controleFinanceiro.model.TipoTransacao;
-import com.controleFinanceiro.model.Transacao;
+import com.controleFinanceiro.connection.DataBaseConnection;
+import com.controleFinanceiro.dao.impl.ContasDaoImpl;
+import com.controleFinanceiro.model.entities.Contas;
+
+import java.sql.Connection;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        Conta c1 = new Conta("Bruno");
-        Conta c2 = new Conta("Eduardo");
+        DataBaseConnection db = new DataBaseConnection();
+        Connection d = db.getConnection();
+//        List<Contas> c;
+        ContasDaoImpl contasDao = new ContasDaoImpl(d);
+//        c = contasDao.getAll();
+//        for (Contas co : c) {
+//            System.out.println(co.getNome());
+//        }
 
-        List<Transacao> l = c1.consultaData("2026-09-23", "2026-09-25");
-        for (Transacao t : l) {
-            System.out.println(t.getValor() + " " + t.getCategoria() + " " + t.getTipoTransacao() + " " + t.getData());
-        }
-//      menu(c1);
-    }
-
-    public static void menu(Conta conta) {
-        Arquivo arq = new Arquivo();
-        Scanner scanner = new Scanner(System.in);
-        int x = -1;
-        int y = -1;
-        while (x != 0) {
-            System.out.println("""
-                    1- Registrar saída
-                    2- Registrar entrada
-                    3- Ver transacoes
-                    4- Ver saldo
-                    5- Ler arquivo 
-                    0- Sair""");
-            try {
-                x = scanner.nextInt();
-            } catch (InputMismatchException e) {
-                System.out.println("Digite um número!");
-                x = -1;
-                scanner.next();
-            }
-            switch (x) {
-                case 1 -> {
-                    scanner.nextLine();
-                    System.out.println("Digite o valor do gasto: ");
-                    try {
-                        String valor = scanner.nextLine();
-                        BigDecimal val = new BigDecimal(valor);
-                        System.out.println("Digite a categoria: ");
-                        String cat = scanner.nextLine();
-                        conta.registrarTransacao(val, cat, TipoTransacao.DESPESA);
-                    } catch (NumberFormatException e) {
-                        System.out.println("Digite um valor númerico!");
-                    } catch (ValueIsLessZeroException | ValueIsBiggerThanBalanceException e) {
-                        System.out.println(e.getMessage());
-                    }
-                }
-                case 2 -> {
-                    scanner.nextLine();
-                    System.out.println("Digite o valor da entrada: ");
-                    try {
-                        String valor = scanner.nextLine();
-                        BigDecimal val = new BigDecimal(valor);
-                        System.out.println("Digite a categoria: ");
-                        String cat = scanner.nextLine();
-                        conta.registrarTransacao(val, cat, TipoTransacao.RECEITA);
-                    } catch (NumberFormatException e) {
-                        System.out.println("Digite um valor númerico!");
-                    } catch (ValueIsLessZeroException | ValueIsBiggerThanBalanceException e) {
-                        System.out.println(e.getMessage());
-                    }
-                }
-                case 3 -> {
-                    ArrayList<Transacao> transacoes = arq.transacoesSalva("dadosTransacao");
-                    for (Transacao t : transacoes) {
-                        System.out.println(t.getValor() + " " + t.getCategoria() + " " + t.getTipoTransacao() + " " + t.getData());
-                    }
-                }
-
-                case 4 -> System.out.println(conta.getSaldo());
-                case 5 -> arq.lerArquivo("dadosTransacao.csv");
-            }
-        }
-    }
+        Contas c = new Contas(2, "Julio", "9876543210", "julio@dev.com");
+        contasDao.insert(c);
+   }
 }

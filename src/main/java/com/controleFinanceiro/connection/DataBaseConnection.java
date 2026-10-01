@@ -28,6 +28,36 @@ public class DataBaseConnection {
         return instance;
     }
 
+    public static void closeConnection(Connection connection) {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                System.out.println("Não foi possivel fechar conexão");
+            }
+        }
+    }
+
+    public static void closeStatemant(PreparedStatement pst) {
+        if (pst != null) {
+            try {
+                pst.close();
+            } catch (SQLException e) {
+                System.out.println("Não foi possivel fechar conexão");
+            }
+        }
+    }
+
+    public static void closeRs(ResultSet rs) {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                System.out.println("Não foi possivel fechar conexão");
+            }
+        }
+    }
+
     public Connection getConnection() {
         return connection;
     }
