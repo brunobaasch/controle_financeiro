@@ -89,8 +89,21 @@ public class ContasDaoImpl implements Dao<Contas> {
     }
 
     @Override
-    public void update(Contas contas, String[] params) {
-
+    public int update(Contas c) {
+        PreparedStatement st = null;
+        findById(c.getId());
+        try {
+            String update = "UPDATE contas SET nome = ?, cpf = ?, email = ?, saldo = ? WHERE id_conta = ?";
+            st = connection.prepareStatement(update);
+            st.setString(1, c.getNome());
+            st.setString(2, c.getCpf());
+            st.setString(3, c.getEmail());
+            st.setBigDecimal(4, c.getSaldo());
+            st.setInt(5, c.getId());
+            return st.executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

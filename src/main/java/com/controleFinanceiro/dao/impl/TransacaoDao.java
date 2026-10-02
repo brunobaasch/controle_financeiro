@@ -23,8 +23,8 @@ public class TransacaoDao implements Dao<Transacoes> {
     }
 
     @Override
-    public void update(Transacoes transacao, String[] params) {
-
+    public int update(Transacoes t) {
+        return 1;
     }
 
     @Override
