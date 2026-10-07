@@ -10,4 +10,6 @@ com/controleFinanceiro/dao/Dao.class
 com/controleFinanceiro/exceptions/ValueIsBiggerThanBalanceException.class
 com/controleFinanceiro/dao/DaoFactory.class
 com/controleFinanceiro/Main.class
+com/controleFinanceiro/MainDelete.class
 com/controleFinanceiro/model/entities/TipoTransacao.class
+com/controleFinanceiro/MainUpdate.class

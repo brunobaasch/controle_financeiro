@@ -1,4 +1,6 @@
 /home/bruno/Documents/Projetos Java/controle_financeiro/src/main/java/com/controleFinanceiro/Main.java
+/home/bruno/Documents/Projetos Java/controle_financeiro/src/main/java/com/controleFinanceiro/MainDelete.java
+/home/bruno/Documents/Projetos Java/controle_financeiro/src/main/java/com/controleFinanceiro/MainUpdate.java
 /home/bruno/Documents/Projetos Java/controle_financeiro/src/main/java/com/controleFinanceiro/connection/DataBaseConnection.java
 /home/bruno/Documents/Projetos Java/controle_financeiro/src/main/java/com/controleFinanceiro/dao/Dao.java
 /home/bruno/Documents/Projetos Java/controle_financeiro/src/main/java/com/controleFinanceiro/dao/DaoFactory.java
