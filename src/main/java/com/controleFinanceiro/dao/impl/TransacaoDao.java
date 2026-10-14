@@ -77,12 +77,11 @@ public class TransacaoDao implements Dao<Transacoes> {
         PreparedStatement pstm = null;
 
         try {
-            pstm = connection.prepareStatement("INSERT INTO transacoes(id_transacao, valor, data, id_conta, tipo) VALUES(?, ?, ?, ?, ?)");
-            pstm.setInt(1, transacao.getId());
-            pstm.setBigDecimal(2, transacao.getValor());
-            pstm.setObject(3, transacao.getData());
-            pstm.setInt(4, transacao.getId_conta());
-            pstm.setObject(5, transacao.getTipo());
+            pstm = connection.prepareStatement("INSERT INTO transacoes(valor, data, id_conta, tipo) VALUES(?, ?, ?, ?)");
+            pstm.setBigDecimal(1, transacao.getValor());
+            pstm.setObject(2, transacao.getData());
+            pstm.setInt(3, transacao.getId_conta());
+            pstm.setObject(4, transacao.getTipo());
             int resultado = pstm.executeUpdate();
             System.out.println(resultado + " linhas alteradas");
         } catch (Exception e) {
