@@ -9,6 +9,6 @@ public class MainDelete {
         DataBaseConnection db = new DataBaseConnection();
         Connection d = db.getConnection();
         ContasDaoImpl c = new ContasDaoImpl(d);
-        c.deleteById(2);
+        c.deleteById(3);
     }
 }

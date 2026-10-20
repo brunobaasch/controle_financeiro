@@ -18,7 +18,7 @@ public class Main {
 //            System.out.println(co.getNome());
 //        }
 
-        Contas c = new Contas(2, "Julio", "9876543210", "julio@dev.com");
+        Contas c = new Contas("Augusto", "9876543210", "julio@dev.com");
         contasDao.insert(c);
    }
 }

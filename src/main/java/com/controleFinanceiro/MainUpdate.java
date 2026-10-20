@@ -12,7 +12,7 @@ public class MainUpdate {
         DataBaseConnection db = DataBaseConnection.getInstance();
         Connection d = db.getConnection();
         ContasDaoImpl c = new ContasDaoImpl(d);
-        Contas acc = new Contas(2, "Julio", "9876543210", "julio@dev.com");
+        Contas acc = new Contas("Julio", "9876543210", "julio@dev.com");
         c.update(acc);
     }
 }

@@ -73,10 +73,12 @@ public class ContasDaoImpl implements Dao<Contas> {
 
         try {
             String sqlConsultaId = "INSERT INTO contas(nome, email, cpf) VALUES(?, ?, ?)";
-            preparedStatement = connection.prepareStatement(sqlConsultaId);
+            preparedStatement = connection.prepareStatement(sqlConsultaId, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, contas.getNome());
             preparedStatement.setString(2, contas.getEmail());
             preparedStatement.setString(3, contas.getCpf());
+            ResultSet id = preparedStatement.getGeneratedKeys();
+            contas.setId();
             int resultado = preparedStatement.executeUpdate();
         }
         catch (SQLException e) {

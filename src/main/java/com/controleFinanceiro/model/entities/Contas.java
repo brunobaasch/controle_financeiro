@@ -11,6 +11,13 @@ public class Contas {
 
     //constructor
 
+    public Contas(String nome, String cpf, String email) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.email = email;
+        this.saldo = BigDecimal.ZERO;
+    }
+
     public Contas(int id, String nome, String cpf, String email, BigDecimal saldo) {
         this.id = id;
         this.nome = nome;
@@ -19,13 +26,10 @@ public class Contas {
         this.saldo = saldo;
     }
 
-    public Contas(int id, String nome, String cpf, String email) {
+    //setter
+    public void setId(int id) {
         this.id = id;
-        this.nome = nome;
-        this.cpf = cpf;
-        this.email = email;
     }
-
 
     // getters
     public String getNome() {
